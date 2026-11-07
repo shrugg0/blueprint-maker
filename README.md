@@ -51,6 +51,9 @@ Minimal 3D `spec.json`:
 
 Useful keys: `width`/`height`, `top_safe`, `palette`, `up`/`front`, `view` (`az`/`el`), `layout` (`multi`/`single`), `scale_ref` (real-world size for dimensions). Without `scale_ref`, dimensions are in model units (`u`) or pixels (`px`). Full reference in [`SKILL.md`](SKILL.md); working examples in [`assets/`](assets/).
 
+### Generating `spec.json` locally using an LLM
+When using the tool standalone in local mode, you can quickly generate a complete `spec.json` file by prompting any LLM (ChatGPT, Claude, Gemini, etc.). See [`PROMPT_SPEC_TEMPLATE.md`](PROMPT_SPEC_TEMPLATE.md) for the ready-to-use prompt template.
+
 Painted views are cached in `~/.cache/blueprint-maker` (or `$BP_CACHE`), so editing text or callouts rebuilds in seconds. Use `--no-cache` to disable.
 
 ## As a Claude skill
