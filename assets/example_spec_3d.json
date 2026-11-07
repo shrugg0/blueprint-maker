@@ -1,0 +1,101 @@
+{
+  "title": "Sawtooth",
+  "subtitle": "All-Terrain Tactical Vehicle (ATTV)",
+  "designation": "All-Terrain Tactical Vehicle (ATTV) - \"Sawtooth\" Class",
+  "spec_no": "ATTV-ST-2026-REV4",
+  "class": "Quadruped pursuit",
+  "rev": "04",
+  "width": 1920,
+  "height": 1080,
+  "top_safe": 76,
+  "palette": "blueprint",
+  "up": "+Y",
+  "front": "-X",
+  "view": {
+    "az": 58,
+    "el": 20
+  },
+  "description": "The \"Sawtooth\" is a high-mobility, low-profile quadruped platform engineered for pursuit and close-contact engagement over extreme terrain. Its low-slung, feline-pattern frame, digitigrade independent limbs and triple counterbalance tail allow fast stalking, sharp turns and long pounces. A segmented dorsal spine under layered serrated plating combines structural rigidity with low weight, while the jaw assembly and clawed feet provide primary contact weaponry. Lightly armoured joint housings and exposed hydraulic runs trade protection for agility; a dorsal module houses power and control systems.",
+  "specs": [
+    [
+      "Chassis",
+      "Segmented spine frame, layered alloy plating"
+    ],
+    [
+      "Locomotion",
+      "Quadruped, digitigrade independent limbs"
+    ],
+    [
+      "Actuation",
+      "Hydraulic joints, long-stroke actuators"
+    ],
+    [
+      "Balance",
+      "Triple articulated counterweight tail"
+    ],
+    [
+      "Power",
+      "Dorsal module, low centre of gravity"
+    ],
+    [
+      "Primary",
+      "Serrated jaw, tridactyl claw feet"
+    ],
+    [
+      "Sensors",
+      "Forward head-mounted sensor cluster"
+    ]
+  ],
+  "notes": [
+    "Joint housings are lightly armoured; hydraulic lines stay exposed.",
+    "Tail whips counter-rotate in turns; high inertia slows recovery after a missed strike.",
+    "Single dorsal module: its loss disables limb actuation.",
+    "Sustained sprints raise heat load along the dorsal plating."
+  ],
+  "callouts": [
+    {
+      "title": "Jaw & sensor head",
+      "desc": "Serrated jaw assembly, primary contact weapon. Forward sensor cluster.",
+      "cand": 1
+    },
+    {
+      "title": "Saw-tooth dorsal plating",
+      "desc": "Layered serrated plates. Armour and heat dissipation along the spine.",
+      "pick": [
+        490,
+        330
+      ]
+    },
+    {
+      "title": "Shoulder actuator",
+      "desc": "High-torque joint ring. Main load path during a pounce.",
+      "pick": [
+        510,
+        465
+      ]
+    },
+    {
+      "title": "Haunch joint",
+      "desc": "Hydraulic actuator, exposed lines. Key service point.",
+      "pick": [
+        880,
+        510
+      ]
+    },
+    {
+      "title": "Dorsal module",
+      "desc": "Power and control housing. Main service access.",
+      "cand": 13
+    },
+    {
+      "title": "Triple tail whips",
+      "desc": "Counterbalance in fast turns. Forked tips.",
+      "cand": 15
+    },
+    {
+      "title": "Tridactyl claw foot",
+      "desc": "Traction on loose ground, absorbs landing impact.",
+      "cand": 3
+    }
+  ]
+}

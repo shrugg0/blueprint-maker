@@ -1,0 +1,19 @@
+{
+  "title": "Specimen 01",
+  "subtitle": "Reverse-engineered from a source image",
+  "designation": "Specimen 01 - external view",
+  "spec_no": "BP-2D-0001",
+  "class": "Reference study",
+  "rev": "01",
+  "mode": "edges",
+  "detail": 0.55,
+  "bg": "auto",
+  "fill": 0.55,
+  "palette": "blueprint",
+  "description": "Line-extraction study of the supplied reference image. Outer contour is emphasised; interior detail is derived from luminance edges. Dimensions are measured on the source image.",
+  "specs": [["Source", "Raster image"], ["Method", "Edge extraction, silhouette outline"], ["Dimensions", "Bounding box of the subject"]],
+  "notes": ["Edge density depends on source resolution and contrast.", "Dimensions are in pixels unless a real-world reference is supplied."],
+  "callouts": [
+    {"title": "Reference point A", "desc": "Replace with a description of this feature.", "point_px": [400, 300]}
+  ]
+}
