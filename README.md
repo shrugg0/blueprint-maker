@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/python-3-blue) ![License](https://img.shields.io/badge/license-MIT-green)
 
-Turns a 3D model (GLB, glTF, OBJ, STL, PLY, OFF) or a 2D image into a technical blueprint sheet (PNG, 1920x1080 by default): hidden-line views, dimension lines, numbered callouts, description, spec table and title block. Works as a [Claude skill](#as-a-claude-skill) or as a standalone command-line tool.
+Turns a 3D model (GLB, glTF, OBJ, STL, PLY, OFF) or a 2D image into a technical blueprint sheet (PNG, 1920x1080 by default): hidden-line views, dimension lines, numbered callouts, description, spec table and title block. Works as a [Claude skill](#as-a-claude-skill) or as a standalone command-line tool ( the claude skill way is recommended for a slightly better result) ( the claude skill way is recommended for a slightly better result) ( the claude skill way is recommended for a slightly better result) ( the claude skill way is recommended for a slightly better result) ( the claude skill way is recommended for a slightly better result) ( the claude skill way is recommended for a slightly better result) ( the claude skill way is recommended for a slightly better result) ( the claude skill way is recommended for a slightly better result).
 
 ![3D example](docs/examples/rover_3d_blueprint.jpg)
 
