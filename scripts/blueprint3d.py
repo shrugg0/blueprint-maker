@@ -13,8 +13,9 @@ from PIL import Image, ImageDraw, ImageFont
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import hlr
+import binding
 from hlr import load_mesh, load_raw, Prep, render, render_cached, projection, make_basis, AX
-from bp_common import Sheet, layout, draw_callouts, format_len, finish, FONT_FILES
+from bp_common import Sheet, layout, draw_callouts, format_len, finish, FONT_FILES, UNIT_NAMES
 
 REF = (1500, 860, 0.03)          # reference render used for "pick" pixels and candidates
 
@@ -130,7 +131,7 @@ def inspect(model, up, front, out_dir, az=58.0, el=20.0, k=16):
 
 
 # ------------------------------------------------------------------ build
-def build(model, spec, out, up=None, front=None, use_cache=True):
+def build(model, spec, out, up=None, front=None, use_cache=True, spec_path=None, relock=False, use_lock=True):
     t_start = time.time()
     up = up or spec.get('up') or default_up(model)
     front = front or spec.get('front') or '-X'
@@ -157,26 +158,10 @@ def build(model, spec, out, up=None, front=None, use_cache=True):
     prep_small = Prep(m, float(spec.get('feature_deg_small', 44.0)), base=prep)
     sh.frame()
 
-    # ---- main 3/4 view
     vw = spec.get('view', {})
     az_d, el_d = vw.get('az', 58), vw.get('el', 20)
     cam = cam_vec(az_d, el_d)
-    mb = B['main']
-    sh.panel(mb, 'VIEW A  |  3/4 VIEW', f'ORTHOGRAPHIC PROJECTION  |  AZ {az_d:g}\u00b0  EL {el_d:g}\u00b0')
-    reg = (mb[0] + 6, mb[1] + 30, mb[2] - 6, mb[3] - 6)
-    w, h = sh.region_px(reg)
-    img, proj, _ = render_cached(prep, -cam, [0, 1, 0], w, h, vw.get('margin', 0.045), pal=pal, lw_feat=1, lw_sil=2,
-                                 model_key=mk, use_cache=use_cache)
-    sh.paste(img, reg[0], reg[1])
-    Pm = lambda p: sh.to_ref(proj(p), reg)[0]
-    keepout = sh.mask_to_ref(np.array(img)[..., 3] > 0, pad=10)
-    origin = (reg[0], reg[1])
-
-    # ---- axis triad (drawn after callouts, reserved now)
-    o = np.array([mb[2] - 90, mb[3] - 40.0])
-    triad_rect = (o[0] - 10, o[1] - 50, o[0] + 64, o[1] + 12)
-
-    # ---- callouts
+    # ---- anchors (resolved before any heavy work so a bad binding fails fast)
     callouts = spec.get('callouts', [])
     PX0 = PY0 = DEP0 = cand_list = None
 
@@ -193,6 +178,8 @@ def build(model, spec, out, up=None, front=None, use_cache=True):
         if 'extreme' in c:
             sx = c['extreme']; axn = AX[sx.lstrip('+-')]; sg = -1.0 if sx.startswith('-') else 1.0
             return V[np.argsort(sg * V[:, axn])[-30:]].mean(0)
+        if 'pick' not in c:
+            raise ValueError(f'callout "{c.get("title", "?")}" needs an anchor: one of cand, pick, extreme, point')
         if PX0 is None:
             PX0, PY0, DEP0 = ref_proj(V, cam)
         px, py = c['pick']
@@ -203,7 +190,38 @@ def build(model, spec, out, up=None, front=None, use_cache=True):
         sel = sel[np.argsort(DEP0[sel])][:25]
         return V[sel].mean(0)
 
-    anchors = {i: Pm(anchor_of(c)) for i, c in enumerate(callouts, 1)}
+    pts3d = [anchor_of(c) for c in callouts]
+    if use_lock and spec_path and callouts:
+        lp = binding.lock_path(spec_path)
+        lock = binding.load(lp)
+        settings = dict(up=up, front=front, az=az_d, el=el_d, candidates=int(spec.get('candidates', 16)), max_faces=max_faces)
+        res = binding.verify(lock, [binding.anchor_def(c) for c in callouts], pts3d,
+                             [c.get('title', '') for c in callouts], binding.fingerprint(m), settings, ext)
+        if res['errors'] and not relock:
+            raise ValueError('\n'.join(res['errors']))
+        for w_ in res['warnings']:
+            sh.warnings.append('binding: ' + w_)
+        if relock or res['write']:
+            binding.save(lp, res['new_lock'])
+            print(f'{"re-locked" if relock else "locked"} {len(callouts)} anchors to this model: {os.path.basename(lp)}')
+
+    # ---- main 3/4 view
+    mb = B['main']
+    sh.panel(mb, 'VIEW A  |  3/4 VIEW', f'ORTHOGRAPHIC PROJECTION  |  AZ {az_d:g}\u00b0  EL {el_d:g}\u00b0')
+    reg = (mb[0] + 6, mb[1] + 30, mb[2] - 6, mb[3] - 6)
+    w, h = sh.region_px(reg)
+    img, proj, _ = render_cached(prep, -cam, [0, 1, 0], w, h, vw.get('margin', 0.045), pal=pal, lw_feat=1, lw_sil=2,
+                                 model_key=mk, use_cache=use_cache)
+    sh.paste(img, reg[0], reg[1])
+    Pm = lambda p: sh.to_ref(proj(p), reg)[0]
+    keepout = sh.mask_to_ref(np.array(img)[..., 3] > 0, pad=10)
+    origin = (reg[0], reg[1])
+
+    # ---- axis triad (drawn after callouts, reserved now)
+    o = np.array([mb[2] - 90, mb[3] - 40.0])
+    triad_rect = (o[0] - 10, o[1] - 50, o[0] + 64, o[1] + 12)
+
+    anchors = {i: Pm(pts3d[i - 1]) for i in range(1, len(callouts) + 1)}
     draw_callouts(sh, callouts, anchors, mb, keepout, origin, [triad_rect])
 
     r_, u_, d_ = make_basis(-cam, [0, 1, 0])
@@ -246,12 +264,12 @@ def build(model, spec, out, up=None, front=None, use_cache=True):
     fields = spec.get('fields')
     if fields is None:
         fields = [(k, v) for k, v in (('SPEC NO', spec.get('spec_no')), ('SHEET', spec.get('sheet', '01 / 01')),
-                                      ('UNITS', 'MODEL UNITS (u)' if unit == 'u' else unit),
+                                      ('UNITS', 'MODEL UNITS (u)' if unit == 'u' else UNIT_NAMES.get(unit, unit)),
                                       ('SCALE', spec.get('scale', 'AS SHOWN')), ('CLASS', spec.get('class')),
                                       ('REV', spec.get('rev'))) if v]
     sh.title_block(B['title'], spec.get('title', 'UNTITLED'), spec.get('subtitle', ''), fields)
     finish(sh, out)
-    print(f'extents (length,height,width) = {np.round(ext, 2).tolist()} model units | '
+    print(f'extents (length,height,width) = {np.round(ext * f, 3).tolist()} {unit if sr else "model units"} | '
           f'render cache: {hlr.STATS["hit"]} hit, {hlr.STATS["miss"]} painted | {time.time() - t_start:.1f}s')
 
 
@@ -263,12 +281,15 @@ def main():
     a.add_argument('--el', type=float, default=20.0); a.add_argument('--k', type=int, default=16)
     b = sub.add_parser('build'); b.add_argument('model'); b.add_argument('spec'); b.add_argument('--out', default='blueprint.png')
     b.add_argument('--up'); b.add_argument('--front'); b.add_argument('--no-cache', action='store_true')
+    b.add_argument('--relock', action='store_true', help='accept the current model/settings and rewrite <spec>.lock.json')
+    b.add_argument('--no-lock', action='store_true', help='skip the spec/model binding check (not recommended)')
     args = ap.parse_args()
     try:
         if args.cmd == 'inspect':
             inspect(args.model, args.up or default_up(args.model), args.front, args.out, args.az, args.el, args.k)
         else:
-            build(args.model, json.load(open(args.spec)), args.out, args.up, args.front, not args.no_cache)
+            build(args.model, json.load(open(args.spec)), args.out, args.up, args.front, not args.no_cache,
+                  args.spec, args.relock, not args.no_lock)
     except ValueError as e:
         sys.exit(f'error: {e}')
 

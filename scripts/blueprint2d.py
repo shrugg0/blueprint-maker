@@ -15,7 +15,7 @@ from PIL import Image, ImageDraw, ImageFont
 from scipy import ndimage as ndi
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from bp_common import Sheet, layout, draw_callouts, format_len, finish, FONT_FILES
+from bp_common import Sheet, layout, draw_callouts, format_len, finish, FONT_FILES, UNIT_NAMES
 
 MAXSIDE = 3200
 
@@ -228,7 +228,7 @@ def build(path, spec, out):
     fields = spec.get('fields')
     if fields is None:
         fields = [(k, v) for k, v in (('SPEC NO', spec.get('spec_no')), ('SHEET', spec.get('sheet', '01 / 01')),
-                                      ('UNITS', 'PIXELS (px)' if unit == 'px' else unit),
+                                      ('UNITS', 'PIXELS (px)' if unit == 'px' else UNIT_NAMES.get(unit, unit)),
                                       ('SCALE', spec.get('scale', 'AS SHOWN')), ('CLASS', spec.get('class')),
                                       ('REV', spec.get('rev'))) if v]
     sh.title_block(B['title'], spec.get('title', 'UNTITLED'), spec.get('subtitle', ''), fields)

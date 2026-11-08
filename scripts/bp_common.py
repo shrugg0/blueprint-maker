@@ -77,6 +77,12 @@ def make_bg(W, H, S, pal):
     return Image.fromarray(out, 'RGB').convert('RGBA')
 
 
+def _upper_keep_units(s):
+    """Upper-case a field value but keep unit symbols in parentheses as written: 'METRES (m)'."""
+    import re
+    return ''.join(p if p.startswith('(') else p.upper() for p in re.split(r'(\([^)]*\))', s))
+
+
 class Sheet:
     def __init__(self, W=1920, H=1080, palette='blueprint', top_safe=76):
         self.W, self.H = int(W), int(H)
@@ -345,7 +351,7 @@ class Sheet:
             c, r = i % 2, i // 2
             x = b[0] + 12 + c * (mid - b[0]); y = ty + 4 + r * 22
             self.text((x, y), k.upper(), 'monob', 12, P['line'])
-            self.text((x + 74, y), str(v).upper(), 'mono', 13, P['white'])
+            self.text((x + 74, y), _upper_keep_units(str(v)), 'mono', 13, P['white'])
             if c == 0 and r > 0:
                 pass
         for r in range(1, rows):
@@ -593,6 +599,9 @@ def draw_callouts(sh, callouts, anchors, box, keepout, origin, obstacles=()):
             placed.append(sh.callout(i, anchors[i], c['title'].upper(), c.get('desc', ''), (x, y), 235, st))
     audit_labels(sh, placed, keepout, origin, box, obstacles)
     return placed
+
+
+UNIT_NAMES = {'m': 'METRES (m)', 'mm': 'MILLIMETRES (mm)', 'cm': 'CENTIMETRES (cm)', 'in': 'INCHES (in)', 'ft': 'FEET (ft)'}
 
 
 def format_len(v):

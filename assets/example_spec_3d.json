@@ -1,101 +1,37 @@
 {
-  "title": "Sawtooth",
-  "subtitle": "All-Terrain Tactical Vehicle (ATTV)",
-  "designation": "All-Terrain Tactical Vehicle (ATTV) - \"Sawtooth\" Class",
-  "spec_no": "ATTV-ST-2026-REV4",
-  "class": "Quadruped pursuit",
-  "rev": "04",
-  "width": 1920,
-  "height": 1080,
-  "top_safe": 76,
+  "title": "Rover R-1",
+  "subtitle": "Six-wheeled survey rover (procedural demo model)",
+  "designation": "Six-wheeled Survey Rover (SWR) - R-1 Class",
+  "spec_no": "SWR-R1-DEMO-01",
+  "class": "Survey rover",
+  "rev": "01",
   "palette": "blueprint",
   "up": "+Y",
   "front": "-X",
-  "view": {
-    "az": 58,
-    "el": 20
-  },
-  "description": "The \"Sawtooth\" is a high-mobility, low-profile quadruped platform engineered for pursuit and close-contact engagement over extreme terrain. Its low-slung, feline-pattern frame, digitigrade independent limbs and triple counterbalance tail allow fast stalking, sharp turns and long pounces. A segmented dorsal spine under layered serrated plating combines structural rigidity with low weight, while the jaw assembly and clawed feet provide primary contact weaponry. Lightly armoured joint housings and exposed hydraulic runs trade protection for agility; a dorsal module houses power and control systems.",
+  "view": {"az": 58, "el": 20},
+  "scale_ref": {"axis": "length", "value": 1.685, "unit": "m"},
+  "description": "The R-1 is a compact six-wheeled rover built for surveying rough, loose terrain. A low central body carries the power and control electronics under a deck-mounted solar panel. Six grouser wheels on rocker arms keep the chassis level over obstacles. A mast-mounted stereo camera looks ahead, a small two-link arm handles sample work at the front, and a rear dish plus a whip antenna provide long- and short-range links.",
   "specs": [
-    [
-      "Chassis",
-      "Segmented spine frame, layered alloy plating"
-    ],
-    [
-      "Locomotion",
-      "Quadruped, digitigrade independent limbs"
-    ],
-    [
-      "Actuation",
-      "Hydraulic joints, long-stroke actuators"
-    ],
-    [
-      "Balance",
-      "Triple articulated counterweight tail"
-    ],
-    [
-      "Power",
-      "Dorsal module, low centre of gravity"
-    ],
-    [
-      "Primary",
-      "Serrated jaw, tridactyl claw feet"
-    ],
-    [
-      "Sensors",
-      "Forward head-mounted sensor cluster"
-    ]
+    ["Chassis", "Rectangular body, rocker-arm suspension"],
+    ["Locomotion", "Six wheels with grousers, skid steering"],
+    ["Power", "Deck-mounted solar panel"],
+    ["Vision", "Mast-mounted stereo camera head"],
+    ["Comms", "Rear dish + whip antenna"],
+    ["Manipulation", "Two-link front arm with gripper"],
+    ["Length", "1.69 m overall"]
   ],
   "notes": [
-    "Joint housings are lightly armoured; hydraulic lines stay exposed.",
-    "Tail whips counter-rotate in turns; high inertia slows recovery after a missed strike.",
-    "Single dorsal module: its loss disables limb actuation.",
-    "Sustained sprints raise heat load along the dorsal plating."
+    "Mast and whip antenna set the overall height: lower them before tight transport.",
+    "Solar panel is the only power source, so output depends on sun angle.",
+    "Skid steering is hard on grousers on hard ground; expect wear on wheel edges."
   ],
   "callouts": [
-    {
-      "title": "Jaw & sensor head",
-      "desc": "Serrated jaw assembly, primary contact weapon. Forward sensor cluster.",
-      "cand": 1
-    },
-    {
-      "title": "Saw-tooth dorsal plating",
-      "desc": "Layered serrated plates. Armour and heat dissipation along the spine.",
-      "pick": [
-        490,
-        330
-      ]
-    },
-    {
-      "title": "Shoulder actuator",
-      "desc": "High-torque joint ring. Main load path during a pounce.",
-      "pick": [
-        510,
-        465
-      ]
-    },
-    {
-      "title": "Haunch joint",
-      "desc": "Hydraulic actuator, exposed lines. Key service point.",
-      "pick": [
-        880,
-        510
-      ]
-    },
-    {
-      "title": "Dorsal module",
-      "desc": "Power and control housing. Main service access.",
-      "cand": 13
-    },
-    {
-      "title": "Triple tail whips",
-      "desc": "Counterbalance in fast turns. Forked tips.",
-      "cand": 15
-    },
-    {
-      "title": "Tridactyl claw foot",
-      "desc": "Traction on loose ground, absorbs landing impact.",
-      "cand": 3
-    }
+    {"title": "Mast camera head", "desc": "Stereo lens pair on a 0.5 m mast for forward vision.", "cand": 3},
+    {"title": "Solar panel", "desc": "Deck-mounted, main power source.", "cand": 12},
+    {"title": "High-gain dish", "desc": "Rear dish antenna for long-range uplink.", "cand": 10},
+    {"title": "Whip antenna", "desc": "Short-range radio, tallest point of the rover.", "cand": 14},
+    {"title": "Front arm", "desc": "Two-link manipulator with a small gripper.", "cand": 2},
+    {"title": "Grouser wheel", "desc": "Six wheels with grousers for traction on loose soil.", "cand": 4},
+    {"title": "Rocker arm", "desc": "Links the wheel pairs on each side of the body.", "cand": 15}
   ]
 }

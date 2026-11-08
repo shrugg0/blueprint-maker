@@ -1,19 +1,87 @@
 {
-  "title": "Specimen 01",
-  "subtitle": "Reverse-engineered from a source image",
-  "designation": "Specimen 01 - external view",
-  "spec_no": "BP-2D-0001",
-  "class": "Reference study",
+  "title": "Rover R-1",
+  "subtitle": "Image study from a reference render",
+  "designation": "Six-wheeled Survey Rover (SWR) - R-1 Class",
+  "spec_no": "SWR-R1-IMG-01",
+  "class": "Image study",
   "rev": "01",
   "mode": "edges",
-  "detail": 0.55,
+  "detail": 0.5,
   "bg": "auto",
   "fill": 0.55,
   "palette": "blueprint",
-  "description": "Line-extraction study of the supplied reference image. Outer contour is emphasised; interior detail is derived from luminance edges. Dimensions are measured on the source image.",
-  "specs": [["Source", "Raster image"], ["Method", "Edge extraction, silhouette outline"], ["Dimensions", "Bounding box of the subject"]],
-  "notes": ["Edge density depends on source resolution and contrast.", "Dimensions are in pixels unless a real-world reference is supplied."],
+  "scale_ref": {
+    "axis": "width",
+    "value": 1.45,
+    "unit": "m"
+  },
+  "description": "Line-extraction study of a single reference image of the R-1 rover. The outer contour is emphasised and interior detail is derived from luminance edges. Dimensions are measured on the image bounding box, scaled with one real-world reference (the visible width).",
+  "specs": [
+    [
+      "Source",
+      "Single raster image"
+    ],
+    [
+      "Method",
+      "Edge extraction, silhouette outline"
+    ],
+    [
+      "Scale",
+      "One real-world reference (width)"
+    ]
+  ],
+  "notes": [
+    "Single viewpoint: no true front, side or top views.",
+    "Edge density depends on image resolution and contrast."
+  ],
   "callouts": [
-    {"title": "Reference point A", "desc": "Replace with a description of this feature.", "point_px": [400, 300]}
+    {
+      "title": "Mast camera head",
+      "desc": "Forward-looking stereo camera.",
+      "point_px": [
+        697,
+        178
+      ]
+    },
+    {
+      "title": "Solar panel",
+      "desc": "Deck-mounted power source.",
+      "point_px": [
+        866,
+        368
+      ]
+    },
+    {
+      "title": "High-gain dish",
+      "desc": "Long-range uplink antenna.",
+      "point_px": [
+        958,
+        248
+      ]
+    },
+    {
+      "title": "Whip antenna",
+      "desc": "Short-range radio link.",
+      "point_px": [
+        1091,
+        72
+      ]
+    },
+    {
+      "title": "Front arm",
+      "desc": "Two-link manipulator.",
+      "point_px": [
+        477,
+        530
+      ]
+    },
+    {
+      "title": "Grouser wheel",
+      "desc": "Traction on loose soil.",
+      "point_px": [
+        688,
+        717
+      ]
+    }
   ]
 }

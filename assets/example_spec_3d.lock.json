@@ -1,0 +1,96 @@
+{
+ "version": 1,
+ "model_fingerprint": "7a68d505cddffc8c",
+ "settings": {
+  "up": "+Y",
+  "front": "-X",
+  "az": 58,
+  "el": 20,
+  "candidates": 16,
+  "max_faces": 700000
+ },
+ "extents": [
+  1.685,
+  1.17,
+  0.94
+ ],
+ "callouts": [
+  {
+   "title": "Mast camera head",
+   "anchor_def": {
+    "cand": 3
+   },
+   "point": [
+    -0.475,
+    1.1096,
+    0.2222
+   ]
+  },
+  {
+   "title": "Solar panel",
+   "anchor_def": {
+    "cand": 12
+   },
+   "point": [
+    0.6438,
+    0.3525,
+    -0.31
+   ]
+  },
+  {
+   "title": "High-gain dish",
+   "anchor_def": {
+    "cand": 10
+   },
+   "point": [
+    0.4415,
+    0.74,
+    -0.1285
+   ]
+  },
+  {
+   "title": "Whip antenna",
+   "anchor_def": {
+    "cand": 14
+   },
+   "point": [
+    0.5,
+    1.135,
+    0.2
+   ]
+  },
+  {
+   "title": "Front arm",
+   "anchor_def": {
+    "cand": 2
+   },
+   "point": [
+    -0.53,
+    0.29,
+    -0.31
+   ]
+  },
+  {
+   "title": "Grouser wheel",
+   "anchor_def": {
+    "cand": 4
+   },
+   "point": [
+    -0.6054,
+    0.147,
+    0.47
+   ]
+  },
+  {
+   "title": "Rocker arm",
+   "anchor_def": {
+    "cand": 15
+   },
+   "point": [
+    0.53,
+    0.29,
+    0.35
+   ]
+  }
+ ]
+}
