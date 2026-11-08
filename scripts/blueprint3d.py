@@ -114,11 +114,14 @@ def inspect(model, up, front, out_dir, az=58.0, el=20.0, k=16):
         dr.line([0, y, REF[0], y], fill=(255, 255, 255, 28), width=1); dr.text((3, y + 2), str(y), fill=(255, 230, 120, 255), font=fs)
     cands = candidates(m.vertices, cam, k)
     print(f'view az={az:g} el={el:g} (use the same "view" in the spec so candidate numbers match)')
+    print('  rel=[x, y, z]: x 0 = front end ... 1 = rear end, y 0 = lowest ... 1 = highest, z 0..1 across the width')
     for n, c in enumerate(cands, 1):
         x, y = c['px'], c['py']
         dr.ellipse([x - 13, y - 13, x + 13, y + 13], fill=(255, 214, 120, 235), outline=(20, 20, 20, 255), width=2)
         dr.text((x, y), str(n), fill=(10, 10, 10, 255), font=fn, anchor='mm')
-        print(f'  cand {n:2d}: pick=[{x:.0f}, {y:.0f}]  canonical=[{c["point"][0]:.1f}, {c["point"][1]:.1f}, {c["point"][2]:.1f}]')
+        rel = (c['point'] - m.bounds[0]) / np.maximum(m.extents, 1e-12)
+        print(f'  cand {n:2d}: pick=[{x:.0f}, {y:.0f}]  canonical=[{c["point"][0]:.3g}, {c["point"][1]:.3g}, {c["point"][2]:.3g}]  '
+              f'rel=[{rel[0]:.2f}, {rel[1]:.2f}, {rel[2]:.2f}]')
     main = bg.convert('RGB')
     sc = 1200 / REF[0]
     top = top.resize((1200, int(top.height * 1200 / top.width)), Image.LANCZOS)
